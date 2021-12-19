@@ -1,0 +1,1 @@
+./network.sh deployCC -ccn HRChaincode -ccs 2 -ccv 1 -ccl typescript -ccp ../chaincode/

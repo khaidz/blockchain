@@ -1,0 +1,26 @@
+test:
+    name: basic-contract-benchmark
+    description: test benchmark
+    workers:
+      type: local
+      number: 2
+    rounds:
+      - label: 200tps
+        description: Đăng ký phiếu khám benchmark
+        txNumber: 5000
+        rateControl: 
+          type: fixed-rate
+          opts:
+            tps: 200
+        workload:
+          module: workload/medicalBillRegistration.js
+          arguments:
+            assets: 10
+            contractId: HRChaincode
+monitors:
+  resource:
+  - module: docker
+    options:
+      interval: 5 
+      containers:
+      - all
