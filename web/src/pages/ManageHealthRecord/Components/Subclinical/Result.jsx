@@ -79,7 +79,7 @@ export default ({mbId}) => {
                     <>{
                         record.subclinical_sheet_images !== undefined ? 
                                 record.subclinical_sheet_images.map((element) =>  {
-                                     return <Card key={element.uid} style={{margin: 3, float: 'left'}}><Image  src={`http://localhost:3000/upload/${element.name}`} width={150} height={100} ></Image></Card>
+                                     return <Card key={element.uid} style={{margin: 3, float: 'left'}}><Image  src={`${DEFAULT_HOST}/upload/${element.name}`} width={150} height={100} ></Image></Card>
                                     } 
                                ) : <></>
                        

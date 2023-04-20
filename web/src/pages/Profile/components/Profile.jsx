@@ -126,7 +126,7 @@ export default () => {
                     
                 </Form.Item >  
                 {/* <Form.Item label="Mã QR">   
-                    <ImageQR src={`http://localhost:3000/health-record/server/uploads/1638346276571-health-record-IU58PcAVCMElMMlWvTKP51Screenshot_from%202021-11-16%2020-43-40.png`}/>
+                    <ImageQR src={`${DEFAULT_HOST}/health-record/server/uploads/1638346276571-health-record-IU58PcAVCMElMMlWvTKP51Screenshot_from%202021-11-16%2020-43-40.png`}/>
                 </Form.Item> */}
                 <Form.Item {...buttonCol}>   
                     <Button style={{float:'initial'}} onClick={()=> {setEdit(true)}}>Chỉnh sửa</Button>

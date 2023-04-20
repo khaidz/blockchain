@@ -3,8 +3,7 @@ import { Alert, Form, Button, Input} from 'antd';
 import axios from 'axios';
 import { history } from 'umi';
 import {login} from '@/helpers/Auth';
-
-const serverUrl = 'http://localhost:3000/';
+import { DEFAULT_HOST } from '@/host';
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
@@ -23,7 +22,7 @@ const LoginForm = () => {
     }
     const handlePasswordInput = (event) => {
         setPassword(event.target.value);
-    }
+    } 
 
     const formFinish = async (values) => {
         setButtonLoading(true);
@@ -31,7 +30,7 @@ const LoginForm = () => {
         try {
             result = await axios({
                 method: 'post',
-                url: `${serverUrl}auth/login-admin`,
+                url: `${DEFAULT_HOST}/auth/login-admin`,
                 data: values,
             });
             if (result.data.success) {

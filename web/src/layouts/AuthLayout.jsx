@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'umi';
 import { logout, login } from '@/helpers/Auth';
 import axios from 'axios';
-
+import { DEFAULT_HOST } from '@/host';
 const REDIRECT_PATH = {
     "Lễ tân": '/receptionist',
     "Bác sĩ": '/physician',
@@ -17,7 +17,7 @@ const AuthLayout = (props) => {
         const f = async () => {
             // const appName = history.location.pathname.split('/')[1];
             try {
-                const result = await axios.get('http://localhost:3000/users/me', {
+                const result = await axios.get(`${DEFAULT_HOST}/users/me`, {
                     headers: {
                         Authorization: `Bearer ${user.token}`
                     }

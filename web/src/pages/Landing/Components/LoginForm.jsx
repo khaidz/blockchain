@@ -4,8 +4,7 @@ import axios from 'axios';
 import { history } from 'umi';
 
 import {login } from '@/helpers/Auth'
-
-const serverUrl = 'http://localhost:3000/';
+import { DEFAULT_HOST } from '@/host';
 
 const LoginForm = () => {
     const [username, setUsername] = useState('');
@@ -31,7 +30,7 @@ const LoginForm = () => {
         try {
             result = await axios({
                 method: 'post',
-                url: `${serverUrl}auth/login-staff`,
+                url: `${DEFAULT_HOST}/auth/login-staff`,
                 data: values,
             });
             if (result.data.success) {

@@ -116,7 +116,7 @@ export default ({mbId}) => {
             >
                 <>
                     <Upload
-                        action="http://localhost:3000/upload"
+                        action={`${DEFAULT_HOST}/upload`}
                         listType= 'picture'
                         accept="image/*"
                         fileList = {fileList}
