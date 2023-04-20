@@ -5,7 +5,7 @@ import { logout } from '../helper/Auth';
 import axios from 'axios';
 import { Card, List, Title, Divider, Appbar } from 'react-native-paper';
 import getFullTime from '../helper/FullTime';
-
+import { DEFAULT_HOST } from '../host';
 export default function Profile({ navigation }) {
   const [state, setState] = useState({ open: false });
 

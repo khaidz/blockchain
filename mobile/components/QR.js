@@ -4,7 +4,7 @@ import { View, Button, Text, Image, StyleSheet, ScrollView, ActivityIndicator } 
 import { logout } from '../helper/Auth';
 import moment from 'moment';
 import axios from 'axios';
-import { DEFAULT_HOST } from '@/host';
+import { DEFAULT_HOST } from '../host';
 export default function QR({ navigation }) {
   const [token, setToken] = useState('');
   const [profileData, setProfile] = useState([]);

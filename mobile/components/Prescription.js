@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Button, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import { Card } from 'react-native-paper';
-import { DEFAULT_HOST } from '@/host';
+import { DEFAULT_HOST } from '../host';
 export default function Prescription({ mbId }) {
   const [token, setToken] = useState('');
   const [sData, setS] = useState([]);
