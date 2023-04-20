@@ -1,0 +1,1 @@
+{"ast":null,"code":"export var DEFAULT_HOST = \"http://localhost:3000\";","map":{"version":3,"names":["DEFAULT_HOST"],"sources":["/home/khaibq/blockchain/mobile/host.js"],"sourcesContent":["export const DEFAULT_HOST = \"http://localhost:3000\""],"mappings":"AAAA,OAAO,IAAMA,YAAY,GAAG,uBAAuB"},"metadata":{},"sourceType":"module","externalDependencies":[]}

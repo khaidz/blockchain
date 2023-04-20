@@ -3,7 +3,7 @@ import { acceptVerifyHealthRecord } from '../fabric/healthrecord/HealthRecord.fa
 import { queryMedicalBill } from '../fabric/medicalbill/MedicalBill.fabric';
 import { queryPrescription } from '../fabric/prescription/Prescription.fabric';
 import { querySubclinicalSheet } from '../fabric/subclinical_sheet/SubclinicalSheet.fabric';
-
+import cors from 'cors';
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.get('/verify/:hrId/:id', async (req, res) => {
     return res.send("<html><script>alert('Xác thực thất bại!');</script></html");
 });
 
-router.get('/search-medical-bill/', async (req: Request, res: Response) => {
+router.get('/search-medical-bill/', cors(), async (req: Request, res: Response) => {
     const {field, value} = req.query;
     if (typeof field === 'undefined' && typeof value === 'undefined') return res.status(200).send({success: false});
     const queryString: any = {};

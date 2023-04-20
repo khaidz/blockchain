@@ -4,8 +4,13 @@ import { authentication } from '../middleware/auth.middleware';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import QRCode from 'qrcode';
-
+import cors from 'cors';
+var corsOptions = {
+    origin: '*',
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
 const router = express.Router();
+router.use(cors(corsOptions));
 
 const jwt_secret = process.env.JWT_SECRET || "blockchain";
 const uidLen = 8;

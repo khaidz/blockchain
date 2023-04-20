@@ -37,6 +37,7 @@ export default function QR({ navigation }) {
         if (token !== '') {
           const result = await axios.get(url, config);
           if (result.data.success) {
+            console.log(result.data)
             result.data.data.user.user_date_of_birth = moment(result.data.data.user.user_date_of_birth, 'DD-MM-YYYY');
             setProfile(result.data.data.user);
             setQR(result.data.data.qr);

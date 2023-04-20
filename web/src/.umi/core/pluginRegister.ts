@@ -1,9 +1,9 @@
 // @ts-nocheck
 import { plugin } from './plugin';
 import * as Plugin_0 from '@@/plugin-antd-icon-config/app.ts';
-import * as Plugin_1 from '/home/nhduy/web/src/.umi/plugin-dva/runtime.tsx';
+import * as Plugin_1 from '/home/khaibq/blockchain/web/src/.umi/plugin-dva/runtime.tsx';
 import * as Plugin_2 from '../plugin-initial-state/runtime';
-import * as Plugin_3 from '/home/nhduy/web/src/.umi/plugin-locale/runtime.tsx';
+import * as Plugin_3 from '/home/khaibq/blockchain/web/src/.umi/plugin-locale/runtime.tsx';
 import * as Plugin_4 from '../plugin-model/runtime';
 
   plugin.register({
@@ -12,7 +12,7 @@ import * as Plugin_4 from '../plugin-model/runtime';
   });
   plugin.register({
     apply: Plugin_1,
-    path: '/home/nhduy/web/src/.umi/plugin-dva/runtime.tsx',
+    path: '/home/khaibq/blockchain/web/src/.umi/plugin-dva/runtime.tsx',
   });
   plugin.register({
     apply: Plugin_2,
@@ -20,7 +20,7 @@ import * as Plugin_4 from '../plugin-model/runtime';
   });
   plugin.register({
     apply: Plugin_3,
-    path: '/home/nhduy/web/src/.umi/plugin-locale/runtime.tsx',
+    path: '/home/khaibq/blockchain/web/src/.umi/plugin-locale/runtime.tsx',
   });
   plugin.register({
     apply: Plugin_4,

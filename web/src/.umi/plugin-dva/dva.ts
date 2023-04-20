@@ -3,13 +3,13 @@ import { Component } from 'react';
 import { ApplyPluginsType } from 'umi';
 import dva from 'dva';
 // @ts-ignore
-import createLoading from '/home/nhduy/web/node_modules/dva-loading/dist/index.esm.js';
+import createLoading from '/home/khaibq/blockchain/web/node_modules/dva-loading/dist/index.esm.js';
 import { plugin, history } from '../core/umiExports';
-import ModelGlobal0 from '/home/nhduy/web/src/models/global.js';
-import ModelLogin1 from '/home/nhduy/web/src/models/login.js';
-import ModelSetting2 from '/home/nhduy/web/src/models/setting.js';
-import ModelUser3 from '/home/nhduy/web/src/models/user.js';
-import ModelModel4 from '/home/nhduy/web/src/pages/analysis/model.js';
+import ModelGlobal0 from '/home/khaibq/blockchain/web/src/models/global.js';
+import ModelLogin1 from '/home/khaibq/blockchain/web/src/models/login.js';
+import ModelSetting2 from '/home/khaibq/blockchain/web/src/models/setting.js';
+import ModelUser3 from '/home/khaibq/blockchain/web/src/models/user.js';
+import ModelModel4 from '/home/khaibq/blockchain/web/src/pages/analysis/model.js';
 
 let app:any = null;
 

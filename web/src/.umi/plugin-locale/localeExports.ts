@@ -3,11 +3,11 @@ import {
   createIntl,
   IntlShape,
   MessageDescriptor,
-} from '/home/nhduy/web/node_modules/react-intl';
+} from '/home/khaibq/blockchain/web/node_modules/react-intl';
 import { ApplyPluginsType } from 'umi';
 import { event, LANG_CHANGE_EVENT } from './locale';
 // @ts-ignore
-import warning from '/home/nhduy/web/node_modules/@umijs/plugin-locale/node_modules/warning/warning.js';
+import warning from '/home/khaibq/blockchain/web/node_modules/@umijs/plugin-locale/node_modules/warning/warning.js';
 
 import { plugin } from '../core/plugin';
 
@@ -34,26 +34,26 @@ export {
   defineMessages,
   injectIntl,
   useIntl,
-} from '/home/nhduy/web/node_modules/react-intl';
+} from '/home/khaibq/blockchain/web/node_modules/react-intl';
 
 let g_intl: IntlShape;
 
 const useLocalStorage = true;
 
 import enUS0 from 'antd/es/locale/en_US';
-import lang_enUS0 from "/home/nhduy/web/src/locales/en-US.js";
-import lang_enUS1 from "/home/nhduy/web/src/pages/analysis/locales/en-US.js";
+import lang_enUS0 from "/home/khaibq/blockchain/web/src/locales/en-US.js";
+import lang_enUS1 from "/home/khaibq/blockchain/web/src/pages/analysis/locales/en-US.js";
 import idID0 from 'antd/es/locale/id_ID';
-import lang_idID0 from "/home/nhduy/web/src/locales/id-ID.js";
+import lang_idID0 from "/home/khaibq/blockchain/web/src/locales/id-ID.js";
 import ptBR0 from 'antd/es/locale/pt_BR';
-import lang_ptBR0 from "/home/nhduy/web/src/locales/pt-BR.js";
-import lang_ptBR1 from "/home/nhduy/web/src/pages/analysis/locales/pt-BR.js";
+import lang_ptBR0 from "/home/khaibq/blockchain/web/src/locales/pt-BR.js";
+import lang_ptBR1 from "/home/khaibq/blockchain/web/src/pages/analysis/locales/pt-BR.js";
 import zhCN0 from 'antd/es/locale/zh_CN';
-import lang_zhCN0 from "/home/nhduy/web/src/locales/zh-CN.js";
-import lang_zhCN1 from "/home/nhduy/web/src/pages/analysis/locales/zh-CN.js";
+import lang_zhCN0 from "/home/khaibq/blockchain/web/src/locales/zh-CN.js";
+import lang_zhCN1 from "/home/khaibq/blockchain/web/src/pages/analysis/locales/zh-CN.js";
 import zhTW0 from 'antd/es/locale/zh_TW';
-import lang_zhTW0 from "/home/nhduy/web/src/locales/zh-TW.js";
-import lang_zhTW1 from "/home/nhduy/web/src/pages/analysis/locales/zh-TW.js";
+import lang_zhTW0 from "/home/khaibq/blockchain/web/src/locales/zh-TW.js";
+import lang_zhTW1 from "/home/khaibq/blockchain/web/src/pages/analysis/locales/zh-TW.js";
 
 export const localeInfo: {[key: string]: any} = {
   'en-US': {

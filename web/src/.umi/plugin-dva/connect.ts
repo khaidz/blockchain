@@ -6,11 +6,11 @@ import { EffectsCommandMap, SubscriptionAPI } from 'dva';
 import { match } from 'react-router-dom';
 import { Location, LocationState, History } from 'history';
 
-export * from '/home/nhduy/web/src/models/global';
-export * from '/home/nhduy/web/src/models/login';
-export * from '/home/nhduy/web/src/models/setting';
-export * from '/home/nhduy/web/src/models/user';
-export * from '/home/nhduy/web/src/pages/analysis/model';
+export * from '/home/khaibq/blockchain/web/src/models/global';
+export * from '/home/khaibq/blockchain/web/src/models/login';
+export * from '/home/khaibq/blockchain/web/src/models/setting';
+export * from '/home/khaibq/blockchain/web/src/models/user';
+export * from '/home/khaibq/blockchain/web/src/pages/analysis/model';
 
 export interface Action<T = any> {
   type: T

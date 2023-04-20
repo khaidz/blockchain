@@ -5,8 +5,8 @@ import '../global.jsx';
 import { plugin } from './core/plugin';
 import './core/pluginRegister';
 import { createHistory } from './core/history';
-import { ApplyPluginsType } from '/home/nhduy/web/node_modules/@umijs/runtime';
-import { renderClient } from '/home/nhduy/web/node_modules/@umijs/renderer-react';
+import { ApplyPluginsType } from '/home/khaibq/blockchain/web/node_modules/@umijs/runtime';
+import { renderClient } from '/home/khaibq/blockchain/web/node_modules/@umijs/renderer-react';
 import { getRoutes } from './core/routes';
 
 
