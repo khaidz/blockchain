@@ -6,7 +6,7 @@ import { Title, DataTable, Modal, Portal, Provider, TouchableRipple } from 'reac
 import moment from 'moment';
 import getFullTime from '../helper/FullTime';
 import MedicalBill from './MedicalBill';
-import { DEFAULT_HOST } from '@/host';
+import { DEFAULT_HOST } from '../host';
 export default function HealthRecord({ navigation }) {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState({});

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Alert, StyleSheet, Text, Image } from 'react-native';
 import axios from 'axios';
 import { login } from '../helper/Auth';
-import { DEFAULT_HOST } from '@/host';
+import { DEFAULT_HOST } from '../host';
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPass] = useState('');

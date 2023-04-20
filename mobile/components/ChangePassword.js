@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { login, logout } from '../helper/Auth';
-import { DEFAULT_HOST } from '@/host';
+import { DEFAULT_HOST } from '../host';
 export default function ChangePassword({ navigation }) {
   const [newPassword, setNewPass] = useState('');
   const [oldPass, setOldPass] = useState('');
