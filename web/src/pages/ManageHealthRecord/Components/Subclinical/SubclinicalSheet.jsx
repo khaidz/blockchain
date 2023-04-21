@@ -9,14 +9,14 @@ import {
     Space,
     Modal,
     message,
-    Image
+    Image,
     // Tag
 } from 'antd';
 // import { PageContainer } from '@ant-design/pro-layout';
 import axios from 'axios';
 import moment from 'moment';
 import { PlusOutlined } from '@ant-design/icons';
-import {fetchCurrentUser} from '@/helpers/Auth'
+import { fetchCurrentUser } from '@/helpers/Auth';
 import { DEFAULT_HOST } from '@/host';
 import SubclinicalForm from './SubclinicalForm';
 
@@ -25,8 +25,7 @@ moment.locale('en');
 // const { Search } = Input;
 // const { Option } = Select;
 
-
-export default ({mbId}) => {
+export default ({ mbId }) => {
     const [formVisible, setFormVisible] = useState(false);
     // const [editRow, setEditRow] = useState({});
     const [ssData, setSSData] = useState([]);
@@ -40,23 +39,22 @@ export default ({mbId}) => {
     };
 
     const fetchSS = async () => {
-            try {
-                setTloading(true);
-                const url = `${DEFAULT_HOST}/physician/search-subclinical-sheet?field=subclinical_sheet_medical_bill_id&value=${mbId}`;  // prescription`
-                const result = await axios.get(url, config);
-                return result.data.data;
-            } catch (error) {
-                
-                // console.log(error);
-            }
-            return "";
+        try {
+            setTloading(true);
+            const url = `${DEFAULT_HOST}/physician/search-subclinical-sheet?field=subclinical_sheet_medical_bill_id&value=${mbId}`; // prescription`
+            const result = await axios.get(url, config);
+            return result.data.data;
+        } catch (error) {
+            // console.log(error);
+        }
+        return '';
     };
     useEffect(() => {
         const f = async () => {
             const drug = await fetchSS();
             setSSData(drug);
             setTloading(false);
-            return "";
+            return '';
         };
         f();
     }, [formVisible]);
@@ -65,30 +63,29 @@ export default ({mbId}) => {
         try {
             setTloading(true);
             const sId = record.subclinical_sheet_id;
-            const url = `${DEFAULT_HOST}/physician/delete-subclinical/${sId}`;  
+            const url = `${DEFAULT_HOST}/physician/delete-subclinical/${sId}`;
             const result = await axios.get(url, config);
-            if(result.data.success){
-                message.success("Đã xóa thành công");
+            if (result.data.success) {
+                message.success('Đã xóa thành công');
                 setTloading(false);
                 const f = async () => {
                     const drug = await fetchSS();
                     setSSData(drug);
                     setTloading(false);
-                    return "";
+                    return '';
                 };
                 f();
-                return "";
-            } 
-            message.error("Xóa không thành công");
+                return '';
+            }
+            message.error('Xóa không thành công');
             setTloading(false);
-            return "";
-
+            return '';
         } catch (error) {
-            message.error("Xóa không thành công");
+            message.error('Xóa không thành công');
             setTloading(false);
-            return "";
+            return '';
         }
-    }
+    };
     const columns = [
         {
             title: 'Tên cận lâm sàng',
@@ -103,24 +100,35 @@ export default ({mbId}) => {
         {
             title: 'Chỉnh sửa',
             render: (text, record) => {
-                return <Button type="link" onClick={() => handleDeleteClick(record)}>Xóa</Button> 
-               
+                return (
+                    <Button type="link" onClick={() => handleDeleteClick(record)}>
+                        Xóa
+                    </Button>
+                );
             },
         },
         {
             title: 'Hình ảnh kết quả',
-            render: (text,record) => {
+            render: (text, record) => {
                 return (
-                    <>{
-                        record.subclinical_sheet_images !== undefined ? 
-                                record.subclinical_sheet_images.map((element) =>  {
-                                     return <Card key={element.uid} style={{margin: 3, float: 'left'}}><Image  src={`${DEFAULT_HOST}/upload/${element.name}`} width={150} height={100} ></Image></Card>
-                                    } 
-                               ) : <></>
-                       
-                        }
+                    <>
+                        {record.subclinical_sheet_images !== undefined ? (
+                            record.subclinical_sheet_images.map((element) => {
+                                return (
+                                    <Card key={element.uid} style={{ margin: 3, float: 'left' }}>
+                                        <Image
+                                            src={`${DEFAULT_HOST}/upload/${element.name}`}
+                                            width={150}
+                                            height={100}
+                                        ></Image>
+                                    </Card>
+                                );
+                            })
+                        ) : (
+                            <></>
+                        )}
                     </>
-                )
+                );
             },
         },
     ];
@@ -129,11 +137,8 @@ export default ({mbId}) => {
         <>
             <Card>
                 <Row gutter={1}>
-                    <Col span={3}>
-                       
-                    </Col>
-                    <Col span={8}>
-                    </Col>
+                    <Col span={3}></Col>
+                    <Col span={8}></Col>
                     <Col offset={5} span={8}>
                         <Space style={{ float: 'right' }}>
                             <Button
@@ -148,7 +153,12 @@ export default ({mbId}) => {
                     </Col>
                 </Row>
                 <Divider></Divider>
-                <Table loading={tloading} dataSource={ssData} columns={columns} pagination={{pageSize:6}}></Table>
+                <Table
+                    loading={tloading}
+                    dataSource={ssData}
+                    columns={columns}
+                    pagination={{ pageSize: 6 }}
+                ></Table>
             </Card>
             <Modal
                 centered
@@ -158,10 +168,10 @@ export default ({mbId}) => {
                 onCancel={() => setFormVisible(false)}
                 destroyOnClose
                 width={700}
-                style={{width: 700}}
+                style={{ width: 700 }}
             >
-                <SubclinicalForm onCancel={() => setFormVisible(false)} mbId={mbId}/>
+                <SubclinicalForm onCancel={() => setFormVisible(false)} mbId={mbId} />
             </Modal>
-       </>
+        </>
     );
 };

@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Input, DatePicker, Button, Result, Space} from 'antd';
-import {RetweetOutlined, EditOutlined} from '@ant-design/icons'
+import React, { useState, useEffect } from 'react';
+import { Form, Input, DatePicker, Button, Result, Space } from 'antd';
+import { RetweetOutlined, EditOutlined } from '@ant-design/icons';
 import 'moment/locale/en-au';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/vi_VN';
@@ -11,42 +11,41 @@ import { fetchCurrentUser } from '@/helpers/Auth';
 
 const layout = {
     wrapperCol: {
-        span: 16
+        span: 16,
     },
     labelCol: {
-        span: 8
-    }
-}
+        span: 8,
+    },
+};
 
 const buttonCol = {
     wrapperCol: {
         span: 24,
-    }
-}
+    },
+};
 
 const isModified = (currentValue, newValue) => {
     let isModify = false;
-    
-    Object.keys(newValue).forEach(attr => {
-        if(['user_date_of_birth'].includes(attr)){
-            if(moment(currentValue[attr]).format('DD-MM-YYYY') !== newValue[attr]){
+
+    Object.keys(newValue).forEach((attr) => {
+        if (['user_date_of_birth'].includes(attr)) {
+            if (moment(currentValue[attr]).format('DD-MM-YYYY') !== newValue[attr]) {
                 isModify = true;
             }
         }
-        if(['user_is_deleted'].includes(attr)){
-            if(currentValue[attr] !== newValue[attr]){
+        if (['user_is_deleted'].includes(attr)) {
+            if (currentValue[attr] !== newValue[attr]) {
                 isModify = true;
             }
         }
-        if(currentValue[attr] !== newValue[attr]) 
-        {
+        if (currentValue[attr] !== newValue[attr]) {
             isModify = true;
         }
-    })
+    });
     return isModify;
-}
+};
 
-export default ({ defaultValue, onCancel}) => {
+export default ({ defaultValue, onCancel }) => {
     const [current, setCurrent] = useState(defaultValue);
     const [edit, setEdit] = useState({
         value: {},
@@ -59,9 +58,9 @@ export default ({ defaultValue, onCancel}) => {
     const [deleted, setDeleted] = useState(defaultValue.user_is_deleted);
     const config = {
         headers: {
-            Authorization: `Bearer ${user.token}`
-        }
-    }
+            Authorization: `Bearer ${user.token}`,
+        },
+    };
     useEffect(() => {
         setCurrent({
             ...defaultValue,
@@ -74,7 +73,6 @@ export default ({ defaultValue, onCancel}) => {
         if (current.isConverted) form.setFieldsValue(current);
     }, [current, form]);
 
-
     const handleFormFinish = async (value) => {
         setPosting(true);
         const url = `${DEFAULT_HOST}/users/${current.user_id}`;
@@ -85,11 +83,14 @@ export default ({ defaultValue, onCancel}) => {
         if (!isModified(current, va)) return setTimeout(() => setSuccess(true), 1500);
         try {
             const result = await axios.post(url, va, config);
-            if (result.data.success) {setPosting(false); setSuccess(true)};
+            if (result.data.success) {
+                setPosting(false);
+                setSuccess(true);
+            }
         } catch (error) {
             setPosting(false);
         }
-        return "";
+        return '';
     };
 
     // const verifyUser = async (userId) => {
@@ -99,7 +100,7 @@ export default ({ defaultValue, onCancel}) => {
     //         if (result.data.success) return true;
     //         return false
     //     } catch (error) {
-    //        return false; 
+    //        return false;
     //     }
     // }
 
@@ -111,10 +112,10 @@ export default ({ defaultValue, onCancel}) => {
             onFinish={handleFormFinish}
             form={form}
         >
-            <Form.Item name='user_id' label='ID'>
+            <Form.Item name="user_id" label="ID">
                 <Input readOnly disabled={true}></Input>
             </Form.Item>
-            <Form.Item name='user_role_name' label='Vai trò'>
+            <Form.Item name="user_role_name" label="Vai trò">
                 <Input readOnly disabled={true}></Input>
             </Form.Item>
             <Form.Item
@@ -192,10 +193,7 @@ export default ({ defaultValue, onCancel}) => {
                 label="Nghề nghiệp"
                 rules={[{ required: true, message: 'Vui lòng nhập nghề nghiệp' }]}
             >
-                <Input
-                    placeholder="Bác sĩ"
-                    disabled={posting || !edit.isEditing}
-                ></Input>
+                <Input placeholder="Bác sĩ" disabled={posting || !edit.isEditing}></Input>
             </Form.Item>
             <Form.Item
                 name="user_workplace"
@@ -215,9 +213,15 @@ export default ({ defaultValue, onCancel}) => {
                 ></Input>
             </Form.Item>
             <Form.Item name="user_is_deleted" label="Trạng thái tài khoản:">
-                {deleted ? 
-                <Button disabled={posting || !edit.isEditing} onClick={() => setDeleted(false)}>Đang khóa</Button>:
-                <Button disabled={posting || !edit.isEditing} onClick={() => setDeleted(true)}>Đã kích hoạt</Button>}
+                {deleted ? (
+                    <Button disabled={posting || !edit.isEditing} onClick={() => setDeleted(false)}>
+                        Đang khóa
+                    </Button>
+                ) : (
+                    <Button disabled={posting || !edit.isEditing} onClick={() => setDeleted(true)}>
+                        Đã kích hoạt
+                    </Button>
+                )}
             </Form.Item>
             <Form.Item {...buttonCol}>
                 <Button
@@ -242,13 +246,13 @@ export default ({ defaultValue, onCancel}) => {
                         Chỉnh sửa
                     </Button>
                     <Button
-                            style={{ float: 'right' }}
-                            type="primary"
-                            htmlType="submit"
-                            loading={posting}
-                            disabled={!edit.isEditing}
-                        >
-                            Xác nhận
+                        style={{ float: 'right' }}
+                        type="primary"
+                        htmlType="submit"
+                        loading={posting}
+                        disabled={!edit.isEditing}
+                    >
+                        Xác nhận
                     </Button>
                 </Space>
             </Form.Item>
@@ -260,7 +264,7 @@ export default ({ defaultValue, onCancel}) => {
                     onCancel();
                 }}
             >
-                <Result status="success" title="Chỉnh sửa thông tin thành công"/>
+                <Result status="success" title="Chỉnh sửa thông tin thành công" />
             </Modal>
         </Form>
     );

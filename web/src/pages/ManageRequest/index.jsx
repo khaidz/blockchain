@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Card,
-    Table,
-    Row,
-    Col,
-    Divider,
-    Button,
-    Space,
-    Modal,
-    Tag
-} from 'antd';
+import { Card, Table, Row, Col, Divider, Button, Space, Modal, Tag } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import axios from 'axios';
 import moment from 'moment';
 import { PlusOutlined } from '@ant-design/icons';
-import {fetchCurrentUser} from '@/helpers/Auth'
+import { fetchCurrentUser } from '@/helpers/Auth';
 import { DEFAULT_HOST } from '@/host';
 import EditDrugForm from './Components/EditDrugForm';
 import DrugForm from './Components/DrugForm';
@@ -23,7 +13,6 @@ moment.locale('en');
 
 // const { Search } = Input;
 // const { Option } = Select;
-
 
 export default () => {
     const [formVisible, setFormVisible] = useState(false);
@@ -38,26 +27,29 @@ export default () => {
         },
     };
     let role;
-    if (user.user_role_name === 'Bác sĩ') {role = 'physician';} 
-    else {role = 'receptionist';}
+    if (user.user_role_name === 'Bác sĩ') {
+        role = 'physician';
+    } else {
+        role = 'receptionist';
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchRequest = async () => {
-            try {
-                setTloading(true);
-                const url = `${DEFAULT_HOST}/${role}/search-request?field=request_sender&value=${user.user_id}`;
-                const result = await axios.get(url, config);
-                return result.data.data;
-            } catch (error) {
-                // console.log(error);
-            }
-            return "";
+        try {
+            setTloading(true);
+            const url = `${DEFAULT_HOST}/${role}/search-request?field=request_sender&value=${user.user_id}`;
+            const result = await axios.get(url, config);
+            return result.data.data;
+        } catch (error) {
+            // console.log(error);
+        }
+        return '';
     };
     useEffect(() => {
         const f = async () => {
             const rq = await fetchRequest();
             setRequestData(rq);
             setTloading(false);
-            return "";
+            return '';
         };
         f();
     }, [editRequest, formVisible]);
@@ -65,7 +57,7 @@ export default () => {
     const handleEditClick = (record) => {
         setEditRow(record);
         setEditRequest(true);
-    }
+    };
     const columns = [
         {
             title: 'ID',
@@ -93,36 +85,35 @@ export default () => {
             dataIndex: 'request_content',
         },
         {
-            title: "Trạng thái",
+            title: 'Trạng thái',
             render: (text, record) => {
-                  if (!record.is_deleted)
-                    return <Tag color='success'>Tồn tại</Tag>
-                    return <Tag color='warning'>Đã khóa</Tag>
-                    
-                      
-            }  
+                if (!record.is_deleted) return <Tag color="success">Tồn tại</Tag>;
+                return <Tag color="warning">Đã khóa</Tag>;
+            },
         },
         {
-            title: "Trạng thái đợi",
+            title: 'Trạng thái đợi',
             render: (text, record) => {
-                  if (!record.request_wait)
-                    return <Tag color='success'>Đã xử lý</Tag>
-                    return <Tag color='warning'>Đang đợi</Tag>
-                      
-            }  
+                if (!record.request_wait) return <Tag color="success">Đã xử lý</Tag>;
+                return <Tag color="warning">Đang đợi</Tag>;
+            },
         },
         {
-            title: "Kết quả",
+            title: 'Kết quả',
             render: (text, record) => {
-                  if (!record.request_result)
-                      return <Tag color='warning'>Thất bại/Chưa xử lý xong</Tag>
-                      return <Tag color='success'>Thành công</Tag>
-            }  
+                if (!record.request_result)
+                    return <Tag color="warning">Thất bại/Chưa xử lý xong</Tag>;
+                return <Tag color="success">Thành công</Tag>;
+            },
         },
         {
             title: 'Chỉnh sửa',
             render: (text, record) => {
-                return <Button type="link" onClick={() => handleEditClick(record)}>Hủy</Button>;
+                return (
+                    <Button type="link" onClick={() => handleEditClick(record)}>
+                        Hủy
+                    </Button>
+                );
             },
         },
     ];
@@ -131,11 +122,8 @@ export default () => {
         <PageContainer>
             <Card>
                 <Row gutter={1}>
-                    <Col span={3}>
-                       
-                    </Col>
-                    <Col span={8}>
-                    </Col>
+                    <Col span={3}></Col>
+                    <Col span={8}></Col>
                     <Col offset={5} span={8}>
                         <Space style={{ float: 'right' }}>
                             <Button
@@ -150,7 +138,12 @@ export default () => {
                     </Col>
                 </Row>
                 <Divider></Divider>
-                <Table loading={tloading} dataSource={requestData} columns={columns} pagination={{pageSize:6}}></Table>
+                <Table
+                    loading={tloading}
+                    dataSource={requestData}
+                    columns={columns}
+                    pagination={{ pageSize: 6 }}
+                ></Table>
             </Card>
             <Modal
                 centered
@@ -167,7 +160,7 @@ export default () => {
                 title="Chỉnh sửa thuốc"
                 footer={null}
                 visible={editRequest}
-                onCancel={() =>  setEditRequest(false)}
+                onCancel={() => setEditRequest(false)}
                 destroyOnClose
             >
                 <EditDrugForm onCancel={() => setEditRequest(false)} defaultValue={editRow} />

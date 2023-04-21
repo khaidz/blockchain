@@ -1,13 +1,13 @@
-import React, { useState} from 'react';
-import { Form, Input, Button, message} from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, message } from 'antd';
 import axios from 'axios';
 import { DEFAULT_HOST } from '@/host';
-import {fetchCurrentUser} from '@/helpers/Auth'
+import { fetchCurrentUser } from '@/helpers/Auth';
 
-const {useForm} = Form;
+const { useForm } = Form;
 // const Option = Select;, Select, useEffect
-                    
-export default ({edit }) => {
+
+export default ({ edit }) => {
     // const [drugData, setDrugData] = useState([]);
     // const [formValue, setValue] = useState([]);
     // const [rowValue, setRow] = useState('');disable
@@ -16,8 +16,8 @@ export default ({edit }) => {
     const config = {
         headers: {
             Authorization: `Bearer ${user.token}`,
-        }
-    }
+        },
+    };
     const [form] = useForm();
     const validate = async (field, value) => {
         const url = `${DEFAULT_HOST}/admin/validate-drug?field=${field}&value=${value}`;
@@ -27,7 +27,7 @@ export default ({edit }) => {
         } catch (error1) {
             return false;
         }
-    }; 
+    };
     // const validate1 = async (field, value) => {
     //     const url = `${DEFAULT_HOST}/admin/validate-department?field=${field}&value=${value}`;
     //     try {
@@ -36,7 +36,7 @@ export default ({edit }) => {
     //     } catch (error1) {
     //         return false;
     //     }
-    // }; 
+    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // const fetchDepartment = async () => {
     //     try {
@@ -60,25 +60,24 @@ export default ({edit }) => {
         const url = `${DEFAULT_HOST}/admin/drug`;
         let mess;
         try {
-            const result =  await axios.post(url,data, config);
-            if (result.status){
+            const result = await axios.post(url, data, config);
+            if (result.status) {
                 mess = `Đăng ký thành công ${data.name}`;
                 setLoading(false);
                 message.success(mess);
-            }
-            else { 
-                mess = "Thất bại";
+            } else {
+                mess = 'Thất bại';
                 setLoading(false);
                 message.error(mess);
-            }  
+            }
         } catch (error2) {
-            mess = "Thất bại";
+            mess = 'Thất bại';
             setLoading(false);
             message.error(mess);
         }
         // disable();
-        return "";
-    }
+        return '';
+    };
     return (
         <Form
             labelCol={{ span: 8 }}
@@ -87,7 +86,7 @@ export default ({edit }) => {
             onFinish={formFinish}
             form={form}
         >
-            <Form.Item 
+            <Form.Item
                 name="name"
                 label="Tên thuốc"
                 hasFeedback
@@ -95,40 +94,35 @@ export default ({edit }) => {
                     { required: true, message: 'Vui lòng nhập tên thuốc' },
                     {
                         validator: async (rule, value) => {
-                            if (!(await validate('drug_name', value))) throw  new Error('Tên thuốc đã tồn tại');
+                            if (!(await validate('drug_name', value)))
+                                throw new Error('Tên thuốc đã tồn tại');
                         },
                     },
-                ]}>
-                <Input disabled={loading} placeholder="..."></Input>
-            </Form.Item>
-            <Form.Item 
-                name="dosageForm"
-                label="Dạng thuốc"
-                hasFeedback
-                rules={[
-                    { required: true, message: 'Vui lòng nhập dạng thuốc' },
-                    
-                ]}>
+                ]}
+            >
                 <Input disabled={loading} placeholder="..."></Input>
             </Form.Item>
             <Form.Item
-            name="unit"
-            label="Đơn vị thuốc"
-            hasFeedback
-            rules={[
-                { required: true, message: 'Vui nhập đơn vị thuốc' },
-                
-            ]}>
+                name="dosageForm"
+                label="Dạng thuốc"
+                hasFeedback
+                rules={[{ required: true, message: 'Vui lòng nhập dạng thuốc' }]}
+            >
+                <Input disabled={loading} placeholder="..."></Input>
+            </Form.Item>
+            <Form.Item
+                name="unit"
+                label="Đơn vị thuốc"
+                hasFeedback
+                rules={[{ required: true, message: 'Vui nhập đơn vị thuốc' }]}
+            >
                 <Input disabled={loading} placeholder="..."></Input>
             </Form.Item>
             <Form.Item
                 name="route"
                 label="Đường dùng"
                 hasFeedback
-                rules={[
-                    { required: true, message: 'Vui nhập đường dùng thuốc' },
-                    
-                ]}
+                rules={[{ required: true, message: 'Vui nhập đường dùng thuốc' }]}
             >
                 <Input disabled={loading} placeholder="..."></Input>
             </Form.Item>
@@ -136,27 +130,23 @@ export default ({edit }) => {
                 name="instruction"
                 label="Cách dùng thuốc"
                 hasFeedback
-                rules={[
-                    { required: true, message: 'Vui nhập cách dùng thuốc' },
-                    
-                ]}
+                rules={[{ required: true, message: 'Vui nhập cách dùng thuốc' }]}
             >
                 <Input disabled={loading} placeholder="..."></Input>
             </Form.Item>
             {edit ? (
-            <Form.Item wrapperCol={{ offset: 8 }}>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                    Sửa thuốc
-                </Button>
-            </Form.Item>
+                <Form.Item wrapperCol={{ offset: 8 }}>
+                    <Button type="primary" htmlType="submit" loading={loading}>
+                        Sửa thuốc
+                    </Button>
+                </Form.Item>
             ) : (
-            <Form.Item wrapperCol={{ offset: 8 }}>
-                <Button type="primary" htmlType="submit" loading={loading}>
-                    Thêm thuốc
-                </Button>
-            </Form.Item>
+                <Form.Item wrapperCol={{ offset: 8 }}>
+                    <Button type="primary" htmlType="submit" loading={loading}>
+                        Thêm thuốc
+                    </Button>
+                </Form.Item>
             )}
         </Form>
-    
     );
 };

@@ -1,21 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-    Card,
-    Table,
-    Row,
-    Col,
-    Divider,
-    Button,
-    Space,
-    Modal,
-    Tag, 
-    message
-} from 'antd';
+import { Card, Table, Row, Col, Divider, Button, Space, Modal, Tag, message } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import axios from 'axios';
 import moment from 'moment';
 import { PlusOutlined } from '@ant-design/icons';
-import {fetchCurrentUser} from '@/helpers/Auth'
+import { fetchCurrentUser } from '@/helpers/Auth';
 import { DEFAULT_HOST } from '@/host';
 import EditSubclinicalForm from './Components/EditSubclinicalForm';
 import SubclinicalForm from './Components/SubclinicalForm';
@@ -24,7 +13,6 @@ moment.locale('en');
 
 // const { Search } = Input;
 // const { Option } = Select;
-
 
 export default () => {
     const [up, setUp] = useState(false);
@@ -40,22 +28,22 @@ export default () => {
         },
     };
     const fetchSubclinical = async () => {
-            try {
-                setTloading(true);
-                const url = `${DEFAULT_HOST}/admin/subclinical`;
-                const result = await axios.get(url, config);
-                return result.data;
-            } catch (error) {
-                // console.log(error);
-            }
-            return "";
+        try {
+            setTloading(true);
+            const url = `${DEFAULT_HOST}/admin/subclinical`;
+            const result = await axios.get(url, config);
+            return result.data;
+        } catch (error) {
+            // console.log(error);
+        }
+        return '';
     };
     useEffect(() => {
         const f = async () => {
             const subclinical = await fetchSubclinical();
             setSubclinicalData(subclinical);
             setTloading(false);
-            return "";
+            return '';
         };
         f();
     }, [editSubclinical, formVisible, up]);
@@ -63,42 +51,40 @@ export default () => {
     const handleEditClick = (record) => {
         setEditRow(record);
         setEditSubclinical(true);
-    }
+    };
     const handleEditIsDeleted = async (Id) => {
         setUp(true);
         const url = `${DEFAULT_HOST}/admin/subclinical-delete/${Id}`;
         const data = {};
-            try {
-                const result = await axios.post(url, data,config);
-                if(result.data.success){
-                  message.success("Đã cập nhật");
-                  setUp(false);
-                }
-                else {
-                  message.error("Thất bại");
-                }
-            } catch (error) {
-              message.error("Thất bại");
+        try {
+            const result = await axios.post(url, data, config);
+            if (result.data.success) {
+                message.success('Đã cập nhật');
+                setUp(false);
+            } else {
+                message.error('Thất bại');
             }
-      };
+        } catch (error) {
+            message.error('Thất bại');
+        }
+    };
 
-      const handleEditIsActived = async (Id) => {
+    const handleEditIsActived = async (Id) => {
         setUp(true);
         const url = `${DEFAULT_HOST}/admin/subclinical-active/${Id}`;
         const data = {};
-            try {
-                const result = await axios.post(url, data ,config);
-                if(result.data.success){
-                  message.success("Đã cập nhật");
-                  setUp(false);
-                }
-                else {
-                  message.error("Thất bại");
-                }
-            } catch (error) {
-              message.error("Thất bại");
+        try {
+            const result = await axios.post(url, data, config);
+            if (result.data.success) {
+                message.success('Đã cập nhật');
+                setUp(false);
+            } else {
+                message.error('Thất bại');
             }
-      }
+        } catch (error) {
+            message.error('Thất bại');
+        }
+    };
     const columns = [
         {
             title: 'Tên cận lâm sàng',
@@ -111,19 +97,39 @@ export default () => {
             dataIndex: 'subclinical_description',
         },
         {
-            title: "Trạng thái",
+            title: 'Trạng thái',
             render: (text, record) => {
-                  if (!record.subclinical_is_deleted)
-                      return <Tag color='success'>Hoạt động</Tag>
-                      return <Tag color='warning'>Đã khóa</Tag>
-            }  
-          },
+                if (!record.subclinical_is_deleted) return <Tag color="success">Hoạt động</Tag>;
+                return <Tag color="warning">Đã khóa</Tag>;
+            },
+        },
         {
             title: 'Chỉnh sửa',
             render: (text, record) => {
                 if (!record.subclinical_is_deleted)
-                    return <><Button type="link" onClick={() => handleEditClick(record)}>Xem chi tiết</Button> <Button type="link" onClick={() => handleEditIsDeleted(record.subclinical_id)}>Khóa</Button> </>;
-                    return <><Button type="link" onClick={() => handleEditIsActived(record.subclinical_id)}>Kích hoạt</Button></>;
+                    return (
+                        <>
+                            <Button type="link" onClick={() => handleEditClick(record)}>
+                                Xem chi tiết
+                            </Button>{' '}
+                            <Button
+                                type="link"
+                                onClick={() => handleEditIsDeleted(record.subclinical_id)}
+                            >
+                                Khóa
+                            </Button>{' '}
+                        </>
+                    );
+                return (
+                    <>
+                        <Button
+                            type="link"
+                            onClick={() => handleEditIsActived(record.subclinical_id)}
+                        >
+                            Kích hoạt
+                        </Button>
+                    </>
+                );
             },
         },
     ];
@@ -164,7 +170,12 @@ export default () => {
                     </Col>
                 </Row>
                 <Divider></Divider>
-                <Table loading={tloading} dataSource={subclinicalData} columns={columns} pagination={{pageSize:6}}></Table>
+                <Table
+                    loading={tloading}
+                    dataSource={subclinicalData}
+                    columns={columns}
+                    pagination={{ pageSize: 6 }}
+                ></Table>
             </Card>
             <Modal
                 centered
@@ -181,10 +192,13 @@ export default () => {
                 title="Chỉnh sửa cận lâm sàng"
                 footer={null}
                 visible={editSubclinical}
-                onCancel={() =>  setEditSubclinical(false)}
+                onCancel={() => setEditSubclinical(false)}
                 destroyOnClose
             >
-                <EditSubclinicalForm onCancel={() => setEditSubclinical(false)} defaultValue={editRow} />
+                <EditSubclinicalForm
+                    onCancel={() => setEditSubclinical(false)}
+                    defaultValue={editRow}
+                />
             </Modal>
         </PageContainer>
     );

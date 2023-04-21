@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Input, DatePicker, Button, Result, Space} from 'antd';
-import {RetweetOutlined, EditOutlined} from '@ant-design/icons'
+import React, { useState, useEffect } from 'react';
+import { Form, Input, DatePicker, Button, Result, Space } from 'antd';
+import { RetweetOutlined, EditOutlined } from '@ant-design/icons';
 import 'moment/locale/en-au';
 import moment from 'moment';
 import locale from 'antd/es/date-picker/locale/vi_VN';
@@ -11,40 +11,39 @@ import { fetchCurrentUser, login } from '@/helpers/Auth';
 
 const layout = {
     wrapperCol: {
-        span: 16
+        span: 16,
     },
     labelCol: {
-        span: 8
-    }
-}
+        span: 8,
+    },
+};
 
 const buttonCol = {
     wrapperCol: {
         span: 24,
-    }
-}
+    },
+};
 
 const isModified = (currentValue, newValue) => {
     let isModify = false;
-    
-    Object.keys(newValue).forEach(attr => {
-        if(['user_date_of_birth'].includes(attr)){
-            if(moment(currentValue[attr]).format('DD-MM-YYYY') !== newValue[attr]){
+
+    Object.keys(newValue).forEach((attr) => {
+        if (['user_date_of_birth'].includes(attr)) {
+            if (moment(currentValue[attr]).format('DD-MM-YYYY') !== newValue[attr]) {
                 isModify = true;
             }
         }
-        if(['user_is_deleted'].includes(attr)){
-            if(currentValue[attr] !== newValue[attr]){
+        if (['user_is_deleted'].includes(attr)) {
+            if (currentValue[attr] !== newValue[attr]) {
                 isModify = true;
             }
         }
-        if(currentValue[attr] !== newValue[attr]) 
-        {
+        if (currentValue[attr] !== newValue[attr]) {
             isModify = true;
         }
-    })
+    });
     return isModify;
-}
+};
 
 export default () => {
     const [current, setCurrent] = useState([]);
@@ -55,31 +54,30 @@ export default () => {
     const [success, setSuccess] = useState(false);
     const [posting, setPosting] = useState(false);
     const [form] = Form.useForm();
-    
+
     // const [deleted, setDeleted] = useState(defaultValue.user_is_deleted);
     const config = {
         headers: {
-            Authorization: `Bearer ${fetchCurrentUser().token}`
-        }
-    }
+            Authorization: `Bearer ${fetchCurrentUser().token}`,
+        },
+    };
     useEffect(() => {
-        const f = async() =>{
-        const urlU = `${DEFAULT_HOST}/users/profile`;
-        const resultU = await axios.get(urlU, config);
-        const defaultValue = resultU.data.data.user;
-        setCurrent({
-            ...defaultValue,
-            user_date_of_birth: moment(defaultValue.user_date_of_birth, 'DD-MM-YYYY'),
-            isConverted: true,
-        });
-        }
+        const f = async () => {
+            const urlU = `${DEFAULT_HOST}/users/profile`;
+            const resultU = await axios.get(urlU, config);
+            const defaultValue = resultU.data.data.user;
+            setCurrent({
+                ...defaultValue,
+                user_date_of_birth: moment(defaultValue.user_date_of_birth, 'DD-MM-YYYY'),
+                isConverted: true,
+            });
+        };
         f();
     }, [posting]);
 
     useEffect(() => {
         if (current.isConverted) form.setFieldsValue(current);
     }, [current, form]);
-
 
     const handleFormFinish = async (value) => {
         setPosting(true);
@@ -95,21 +93,20 @@ export default () => {
                 const resultU = await axios.get(urlU, config);
                 login(resultU.data.data.token, resultU.data.data.user);
                 setCurrent(fetchCurrentUser());
-                setPosting(false); 
-                setSuccess(true); 
+                setPosting(false);
+                setSuccess(true);
                 setEdit({ ...edit, isEditing: false });
-                return "";
+                return '';
             }
-            
-            setPosting(false); 
-            setSuccess(false); 
+
+            setPosting(false);
+            setSuccess(false);
             setEdit({ ...edit, isEditing: false });
-            return "";
-            
+            return '';
         } catch (error) {
             setPosting(false);
             setEdit({ ...edit, isEditing: false });
-            return "";
+            return '';
         }
     };
 
@@ -120,7 +117,7 @@ export default () => {
     //         if (result.data.success) return true;
     //         return false
     //     } catch (error) {
-    //        return false; 
+    //        return false;
     //     }
     // }
 
@@ -132,10 +129,10 @@ export default () => {
             onFinish={handleFormFinish}
             form={form}
         >
-            <Form.Item name='user_id' label='ID'>
+            <Form.Item name="user_id" label="ID">
                 <Input readOnly></Input>
             </Form.Item>
-            <Form.Item name='user_role_name' label='Vai trò'>
+            <Form.Item name="user_role_name" label="Vai trò">
                 <Input readOnly></Input>
             </Form.Item>
             <Form.Item
@@ -213,10 +210,7 @@ export default () => {
                 label="Nghề nghiệp"
                 rules={[{ required: true, message: 'Vui lòng nhập nghề nghiệp' }]}
             >
-                <Input
-                    placeholder="Bác sĩ"
-                    disabled={posting || !edit.isEditing}
-                ></Input>
+                <Input placeholder="Bác sĩ" disabled={posting || !edit.isEditing}></Input>
             </Form.Item>
             <Form.Item
                 name="user_workplace"
@@ -263,13 +257,13 @@ export default () => {
                         Chỉnh sửa
                     </Button>
                     <Button
-                            style={{ float: 'right' }}
-                            type="primary"
-                            htmlType="submit"
-                            loading={posting}
-                            disabled={!edit.isEditing}
-                        >
-                            Xác nhận
+                        style={{ float: 'right' }}
+                        type="primary"
+                        htmlType="submit"
+                        loading={posting}
+                        disabled={!edit.isEditing}
+                    >
+                        Xác nhận
                     </Button>
                 </Space>
             </Form.Item>
@@ -281,7 +275,7 @@ export default () => {
                     // setEdit({ ...edit, isEditing: false })
                 }}
             >
-                <Result status="success" title="Chỉnh sửa thông tin thành công"/>
+                <Result status="success" title="Chỉnh sửa thông tin thành công" />
             </Modal>
         </Form>
     );

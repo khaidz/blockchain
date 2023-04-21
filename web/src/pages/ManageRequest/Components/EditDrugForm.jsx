@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {Form, Input, Button, Result, Space} from 'antd';
-import {RetweetOutlined, EditOutlined} from '@ant-design/icons'
+import React, { useState, useEffect } from 'react';
+import { Form, Input, Button, Result, Space } from 'antd';
+import { RetweetOutlined, EditOutlined } from '@ant-design/icons';
 import 'moment/locale/en-au';
 import axios from 'axios';
 import { DEFAULT_HOST } from '@/host';
@@ -9,42 +9,37 @@ import { fetchCurrentUser } from '@/helpers/Auth';
 
 const layout = {
     wrapperCol: {
-        span: 16
+        span: 16,
     },
     labelCol: {
-        span: 8
-    }
-}
+        span: 8,
+    },
+};
 
 const buttonCol = {
     wrapperCol: {
         span: 24,
-    }
-}
+    },
+};
 
 const isModified = (currentValue, newValue) => {
     let isModify = false;
-    
-    Object.keys(newValue).forEach(attr => {
-        if(['drug_name'].includes(attr)){
-            if(currentValue[attr] !== newValue[attr])
-                isModify = true;
-            
+
+    Object.keys(newValue).forEach((attr) => {
+        if (['drug_name'].includes(attr)) {
+            if (currentValue[attr] !== newValue[attr]) isModify = true;
         }
-        if(['drug_is_deleted'].includes(attr)){
-            if(currentValue[attr] !== newValue[attr])
-                isModify = true;
-            
+        if (['drug_is_deleted'].includes(attr)) {
+            if (currentValue[attr] !== newValue[attr]) isModify = true;
         }
-        if(currentValue[attr] !== newValue[attr]) 
-        {
+        if (currentValue[attr] !== newValue[attr]) {
             isModify = true;
         }
-    })
+    });
     return isModify;
-}
+};
 
-export default ({ defaultValue, onCancel}) => {
+export default ({ defaultValue, onCancel }) => {
     const [current, setCurrent] = useState(defaultValue);
     const [edit, setEdit] = useState({
         value: {},
@@ -57,9 +52,9 @@ export default ({ defaultValue, onCancel}) => {
     const [deleted, setDeleted] = useState(defaultValue.drug_is_deleted);
     const config = {
         headers: {
-            Authorization: `Bearer ${user.token}`
-        }
-    }
+            Authorization: `Bearer ${user.token}`,
+        },
+    };
     // const validate1 = async (field, value) => {
     //     const url = `${DEFAULT_HOST}/admin/validate-drug?field=${field}&value=${value}`;
     //     try {
@@ -68,7 +63,7 @@ export default ({ defaultValue, onCancel}) => {
     //     } catch (error1) {
     //         return false;
     //     }
-    // }; 
+    // };
     useEffect(() => {
         setCurrent({
             ...defaultValue,
@@ -83,16 +78,19 @@ export default ({ defaultValue, onCancel}) => {
     const handleFormFinish = async (value) => {
         setPosting(true);
         const url = `${DEFAULT_HOST}/admin/drug/${current.drug_id}`;
-        const va = value
+        const va = value;
         va.drug_is_deleted = deleted;
         if (!isModified(current, va)) return setTimeout(() => setSuccess(true), 1500);
         try {
             const result = await axios.post(url, va, config);
-            if (result.data.success) {setPosting(false); setSuccess(true)};
+            if (result.data.success) {
+                setPosting(false);
+                setSuccess(true);
+            }
         } catch (error) {
             setPosting(false);
         }
-        return "";
+        return '';
     };
 
     return (
@@ -103,7 +101,7 @@ export default ({ defaultValue, onCancel}) => {
             onFinish={handleFormFinish}
             form={form}
         >
-            <Form.Item name='request_id' label='ID'>
+            <Form.Item name="request_id" label="ID">
                 <Input readOnly></Input>
             </Form.Item>
             <Form.Item
@@ -113,34 +111,27 @@ export default ({ defaultValue, onCancel}) => {
             >
                 <Input placeholder="..." disabled={posting || !edit.isEditing}></Input>
             </Form.Item>
-            <Form.Item 
+            <Form.Item
                 name="drug_dosage_form"
                 label="Dạng thuốc"
                 hasFeedback
-                rules={[
-                    { required: true, message: 'Vui lòng nhập dạng thuốc' },
-                    
-                ]}>
+                rules={[{ required: true, message: 'Vui lòng nhập dạng thuốc' }]}
+            >
                 <Input disabled={posting || !edit.isEditing} placeholder="..."></Input>
             </Form.Item>
             <Form.Item
-            name="drug_unit"
-            label="Đơn vị thuốc"
-            hasFeedback
-            rules={[
-                { required: true, message: 'Vui nhập đơn vị thuốc' },
-                
-            ]}>
+                name="drug_unit"
+                label="Đơn vị thuốc"
+                hasFeedback
+                rules={[{ required: true, message: 'Vui nhập đơn vị thuốc' }]}
+            >
                 <Input disabled={posting || !edit.isEditing} placeholder="..."></Input>
             </Form.Item>
             <Form.Item
                 name="drug_route"
                 label="Đường dùng"
                 hasFeedback
-                rules={[
-                    { required: true, message: 'Vui nhập đường dùng thuốc' },
-                    
-                ]}
+                rules={[{ required: true, message: 'Vui nhập đường dùng thuốc' }]}
             >
                 <Input disabled={posting || !edit.isEditing} placeholder="..."></Input>
             </Form.Item>
@@ -148,17 +139,20 @@ export default ({ defaultValue, onCancel}) => {
                 name="drug_instruction"
                 label="Cách dùng thuốc"
                 hasFeedback
-                rules={[
-                    { required: true, message: 'Vui nhập cách dùng thuốc' },
-                    
-                ]}
+                rules={[{ required: true, message: 'Vui nhập cách dùng thuốc' }]}
             >
                 <Input disabled={posting || !edit.isEditing} placeholder="..."></Input>
             </Form.Item>
             <Form.Item name="drug_is_deleted" label="Trạng thái:">
-                {deleted ? 
-                <Button disabled={posting || !edit.isEditing} onClick={() => setDeleted(false)}>Đang khóa</Button>:
-                <Button disabled={posting || !edit.isEditing} onClick={() => setDeleted(true)}>Đã kích hoạt</Button>}
+                {deleted ? (
+                    <Button disabled={posting || !edit.isEditing} onClick={() => setDeleted(false)}>
+                        Đang khóa
+                    </Button>
+                ) : (
+                    <Button disabled={posting || !edit.isEditing} onClick={() => setDeleted(true)}>
+                        Đã kích hoạt
+                    </Button>
+                )}
             </Form.Item>
             <Form.Item {...buttonCol}>
                 <Button
@@ -183,13 +177,13 @@ export default ({ defaultValue, onCancel}) => {
                         Chỉnh sửa
                     </Button>
                     <Button
-                            style={{ float: 'right' }}
-                            type="primary"
-                            htmlType="submit"
-                            loading={posting}
-                            disabled={!edit.isEditing}
-                        >
-                            Xác nhận
+                        style={{ float: 'right' }}
+                        type="primary"
+                        htmlType="submit"
+                        loading={posting}
+                        disabled={!edit.isEditing}
+                    >
+                        Xác nhận
                     </Button>
                 </Space>
             </Form.Item>
@@ -201,7 +195,7 @@ export default ({ defaultValue, onCancel}) => {
                     onCancel();
                 }}
             >
-                <Result status="success" title="Chỉnh sửa thông tin thành công"/>
+                <Result status="success" title="Chỉnh sửa thông tin thành công" />
             </Modal>
         </Form>
     );

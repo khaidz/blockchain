@@ -11,13 +11,13 @@ import {
     Tag,
     // Input,
     // Select,
-    message
+    message,
 } from 'antd';
 import { PageContainer } from '@ant-design/pro-layout';
 import axios from 'axios';
 import moment from 'moment';
 import { PlusOutlined } from '@ant-design/icons';
-import {fetchCurrentUser} from '@/helpers/Auth'
+import { fetchCurrentUser } from '@/helpers/Auth';
 import { DEFAULT_HOST } from '@/host';
 import EditRoomForm from './Components/EditRoomForm';
 import RoomForm from './Components/RoomForm';
@@ -27,9 +27,8 @@ moment.locale('en');
 // const { Search } = Input;
 // const { Option } = Select;
 
-
 export default () => {
-    const [up, setUp] = useState(false)
+    const [up, setUp] = useState(false);
     const [formVisible, setFormVisible] = useState(false);
     const [editRow, setEditRow] = useState({});
     const [roomData, setRoomData] = useState([]);
@@ -43,22 +42,22 @@ export default () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchRoom = async () => {
-            try {
-                setTloading(true);
-                const url = `${DEFAULT_HOST}/admin/room`;
-                const result = await axios.get(url, config);
-                return result.data;
-            } catch (error) {
-                // console.log(error);
-            }
-            return "";
+        try {
+            setTloading(true);
+            const url = `${DEFAULT_HOST}/admin/room`;
+            const result = await axios.get(url, config);
+            return result.data;
+        } catch (error) {
+            // console.log(error);
+        }
+        return '';
     };
     useEffect(() => {
         const f = async () => {
             const room = await fetchRoom();
             setRoomData(room);
             setTloading(false);
-            return "";
+            return '';
         };
         f();
     }, [editRoom, formVisible, up]);
@@ -66,43 +65,41 @@ export default () => {
     const handleEditClick = (record) => {
         setEditRow(record);
         setEditRoom(true);
-    }
+    };
 
     const handleEditIsDeleted = async (Id) => {
         setUp(true);
         const url = `${DEFAULT_HOST}/admin/room-delete/${Id}`;
         const data = {};
-            try {
-                const result = await axios.post(url, data,config);
-                if(result.data.success){
-                  message.success("Đã cập nhật");
-                  setUp(false);
-                }
-                else {
-                  message.error("Thất bại");
-                }
-            } catch (error) {
-              message.error("Thất bại");
+        try {
+            const result = await axios.post(url, data, config);
+            if (result.data.success) {
+                message.success('Đã cập nhật');
+                setUp(false);
+            } else {
+                message.error('Thất bại');
             }
-      };
+        } catch (error) {
+            message.error('Thất bại');
+        }
+    };
 
-      const handleEditIsActived = async (Id) => {
+    const handleEditIsActived = async (Id) => {
         setUp(true);
         const url = `${DEFAULT_HOST}/admin/room-active/${Id}`;
         const data = {};
-            try {
-                const result = await axios.post(url, data ,config);
-                if(result.data.success){
-                  message.success("Đã cập nhật");
-                  setUp(false);
-                }
-                else {
-                  message.error("Thất bại");
-                }
-            } catch (error) {
-              message.error("Thất bại");
+        try {
+            const result = await axios.post(url, data, config);
+            if (result.data.success) {
+                message.success('Đã cập nhật');
+                setUp(false);
+            } else {
+                message.error('Thất bại');
             }
-      }
+        } catch (error) {
+            message.error('Thất bại');
+        }
+    };
 
     const columns = [
         {
@@ -126,19 +123,33 @@ export default () => {
             dataIndex: 'room_description',
         },
         {
-            title: "Trạng thái",
+            title: 'Trạng thái',
             render: (text, record) => {
-                  if (!record.room_is_deleted)
-                      return <Tag color='success'>Hoạt động</Tag>
-                      return <Tag color='warning'>Đã khóa</Tag>
-            }  
-          },
+                if (!record.room_is_deleted) return <Tag color="success">Hoạt động</Tag>;
+                return <Tag color="warning">Đã khóa</Tag>;
+            },
+        },
         {
             title: 'Chỉnh sửa',
             render: (text, record) => {
                 if (!record.room_is_deleted)
-                    return <><Button type="link" onClick={() => handleEditClick(record)}>Xem chi tiết</Button> <Button type="link" onClick={() => handleEditIsDeleted(record.room_id)}>Khóa</Button> </>;
-                    return <><Button type="link" onClick={() => handleEditIsActived(record.room_id)}>Kích hoạt</Button></>;
+                    return (
+                        <>
+                            <Button type="link" onClick={() => handleEditClick(record)}>
+                                Xem chi tiết
+                            </Button>{' '}
+                            <Button type="link" onClick={() => handleEditIsDeleted(record.room_id)}>
+                                Khóa
+                            </Button>{' '}
+                        </>
+                    );
+                return (
+                    <>
+                        <Button type="link" onClick={() => handleEditIsActived(record.room_id)}>
+                            Kích hoạt
+                        </Button>
+                    </>
+                );
             },
         },
     ];
@@ -179,7 +190,12 @@ export default () => {
                     </Col>
                 </Row>
                 <Divider></Divider>
-                <Table loading={tloading} dataSource={roomData} columns={columns} pagination={{pageSize:6}}></Table>
+                <Table
+                    loading={tloading}
+                    dataSource={roomData}
+                    columns={columns}
+                    pagination={{ pageSize: 6 }}
+                ></Table>
             </Card>
             <Modal
                 centered
@@ -196,7 +212,7 @@ export default () => {
                 title="Chỉnh sửa phòng"
                 footer={null}
                 visible={editRoom}
-                onCancel={() =>  setEditRoom(false)}
+                onCancel={() => setEditRoom(false)}
                 destroyOnClose
             >
                 <EditRoomForm onCancel={() => setEditRoom(false)} defaultValue={editRow} />

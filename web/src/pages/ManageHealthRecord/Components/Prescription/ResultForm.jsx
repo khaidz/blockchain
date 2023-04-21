@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import {
-    
-    Table,
-    
-} from 'antd';
+import { Table } from 'antd';
 
 import axios from 'axios';
 import moment from 'moment';
 
-import {fetchCurrentUser} from '@/helpers/Auth'
+import { fetchCurrentUser } from '@/helpers/Auth';
 import { DEFAULT_HOST } from '@/host';
 
 moment.locale('en');
 
-
-
-export default ({mbId}) => {
-   
+export default ({ mbId }) => {
     const [drugData, setDrugData] = useState([]);
     const [tloading, setTloading] = useState(true);
     const user = fetchCurrentUser();
@@ -27,22 +20,22 @@ export default ({mbId}) => {
     };
 
     const fetchDrug = async () => {
-            try {
-                setTloading(true);
-                const url = `${DEFAULT_HOST}/physician/search-prescription?field=prescription_medical_bill_id&value=${mbId}`;  // prescription`
-                const result = await axios.get(url, config);
-                return result.data.data;
-            } catch (error) {
-                // console.log(error);
-            }
-            return "";
+        try {
+            setTloading(true);
+            const url = `${DEFAULT_HOST}/physician/search-prescription?field=prescription_medical_bill_id&value=${mbId}`; // prescription`
+            const result = await axios.get(url, config);
+            return result.data.data;
+        } catch (error) {
+            // console.log(error);
+        }
+        return '';
     };
     useEffect(() => {
         const f = async () => {
             const drug = await fetchDrug();
             setDrugData(drug);
             setTloading(false);
-            return "";
+            return '';
         };
         f();
     }, []);
@@ -87,7 +80,12 @@ export default ({mbId}) => {
 
     return (
         <>
-                <Table loading={tloading} dataSource={drugData} columns={columns} pagination={{pageSize:6}}></Table>
-       </>
+            <Table
+                loading={tloading}
+                dataSource={drugData}
+                columns={columns}
+                pagination={{ pageSize: 6 }}
+            ></Table>
+        </>
     );
 };

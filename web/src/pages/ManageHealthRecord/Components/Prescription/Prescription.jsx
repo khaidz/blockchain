@@ -15,7 +15,7 @@ import {
 import axios from 'axios';
 import moment from 'moment';
 import { PlusOutlined } from '@ant-design/icons';
-import {fetchCurrentUser} from '@/helpers/Auth'
+import { fetchCurrentUser } from '@/helpers/Auth';
 import { DEFAULT_HOST } from '@/host';
 // import EditDrugForm from './EditDrugForm';
 import DrugForm from './DrugForm';
@@ -25,8 +25,7 @@ moment.locale('en');
 // const { Search } = Input;
 // const { Option } = Select;
 
-
-export default ({mbId}) => {
+export default ({ mbId }) => {
     const [formVisible, setFormVisible] = useState(false);
     // const [editRow, setEditRow] = useState({});
     const [drugData, setDrugData] = useState([]);
@@ -40,22 +39,22 @@ export default ({mbId}) => {
     };
 
     const fetchDrug = async () => {
-            try {
-                setTloading(true);
-                const url = `${DEFAULT_HOST}/physician/search-prescription?field=prescription_medical_bill_id&value=${mbId}`;  // prescription`
-                const result = await axios.get(url, config);
-                return result.data.data;
-            } catch (error) {
-                // console.log(error);
-            }
-            return "";
+        try {
+            setTloading(true);
+            const url = `${DEFAULT_HOST}/physician/search-prescription?field=prescription_medical_bill_id&value=${mbId}`; // prescription`
+            const result = await axios.get(url, config);
+            return result.data.data;
+        } catch (error) {
+            // console.log(error);
+        }
+        return '';
     };
     useEffect(() => {
         const f = async () => {
             const drug = await fetchDrug();
             setDrugData(drug);
             setTloading(false);
-            return "";
+            return '';
         };
         f();
     }, [formVisible]);
@@ -64,30 +63,29 @@ export default ({mbId}) => {
         try {
             setTloading(true);
             const pId = record.prescription_id;
-            const url = `${DEFAULT_HOST}/physician/delete/${pId}`; 
+            const url = `${DEFAULT_HOST}/physician/delete/${pId}`;
             const result = await axios.get(url, config);
-            if(result.data.success){
-                message.success("Đã xóa thành công");
+            if (result.data.success) {
+                message.success('Đã xóa thành công');
                 setTloading(false);
                 const f = async () => {
                     const drug = await fetchDrug();
                     setDrugData(drug);
                     setTloading(false);
-                    return "";
+                    return '';
                 };
                 f();
-                return "";
-            } 
-            message.error("Xóa không thành công");
+                return '';
+            }
+            message.error('Xóa không thành công');
             setTloading(false);
-            return "";
-
+            return '';
         } catch (error) {
-            message.error("Xóa không thành công");
+            message.error('Xóa không thành công');
             setTloading(false);
-            return "";
+            return '';
         }
-    }
+    };
     const columns = [
         {
             title: 'Tên thuốc',
@@ -127,7 +125,11 @@ export default ({mbId}) => {
         {
             title: 'Chỉnh sửa',
             render: (text, record) => {
-                return <Button type="link" onClick={() => handleDeleteClick(record)}>Xóa</Button>;
+                return (
+                    <Button type="link" onClick={() => handleDeleteClick(record)}>
+                        Xóa
+                    </Button>
+                );
             },
         },
     ];
@@ -136,11 +138,8 @@ export default ({mbId}) => {
         <>
             <Card>
                 <Row gutter={1}>
-                    <Col span={3}>
-                       
-                    </Col>
-                    <Col span={8}>
-                    </Col>
+                    <Col span={3}></Col>
+                    <Col span={8}></Col>
                     <Col offset={5} span={8}>
                         <Space style={{ float: 'right' }}>
                             <Button
@@ -155,7 +154,12 @@ export default ({mbId}) => {
                     </Col>
                 </Row>
                 <Divider></Divider>
-                <Table loading={tloading} dataSource={drugData} columns={columns} pagination={{pageSize:6}}></Table>
+                <Table
+                    loading={tloading}
+                    dataSource={drugData}
+                    columns={columns}
+                    pagination={{ pageSize: 6 }}
+                ></Table>
             </Card>
             <Modal
                 centered
@@ -165,7 +169,7 @@ export default ({mbId}) => {
                 onCancel={() => setFormVisible(false)}
                 destroyOnClose
             >
-                <DrugForm onCancel={() => setFormVisible(false)} mbId={mbId}/>
+                <DrugForm onCancel={() => setFormVisible(false)} mbId={mbId} />
             </Modal>
             {/* <Modal
                 centered
@@ -177,6 +181,6 @@ export default ({mbId}) => {
             >
                 <EditDrugForm onCancel={() => setEditDrug(false)} defaultValue={editRow} />
             </Modal> */}
-       </>
+        </>
     );
 };

@@ -15,7 +15,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import axios from 'axios';
 import moment from 'moment';
 import { PlusOutlined } from '@ant-design/icons';
-import {fetchCurrentUser} from '@/helpers/Auth'
+import { fetchCurrentUser } from '@/helpers/Auth';
 import { DEFAULT_HOST } from '@/host';
 import EditRoomForm from '../ManageRoom/Components/EditRoomForm';
 import RoomForm from '../ManageRoom/Components/RoomForm';
@@ -24,7 +24,6 @@ moment.locale('en');
 
 // const { Search } = Input;
 // const { Option } = Select;
-
 
 export default () => {
     const [formVisible, setFormVisible] = useState(false);
@@ -40,22 +39,22 @@ export default () => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const fetchRoom = async () => {
-            try {
-                setTloading(true);
-                const url = `${DEFAULT_HOST}/physician/search-medical-bill?field=medical_bill_physician_id&value=${user.user_id}`;
-                const result = await axios.get(url, config);
-                return result.data.data;
-            } catch (error) {
-                // console.log(error);
-            }
-            return "";
+        try {
+            setTloading(true);
+            const url = `${DEFAULT_HOST}/physician/search-medical-bill?field=medical_bill_physician_id&value=${user.user_id}`;
+            const result = await axios.get(url, config);
+            return result.data.data;
+        } catch (error) {
+            // console.log(error);
+        }
+        return '';
     };
     useEffect(() => {
         const f = async () => {
             const room = await fetchRoom();
             setRoomData(room);
             setTloading(false);
-            return "";
+            return '';
         };
         f();
     }, [editRoom, formVisible]);
@@ -63,9 +62,7 @@ export default () => {
     const handleEditClick = (record) => {
         setEditRow(record);
         setEditRoom(true);
-    }
-
-    
+    };
 
     const columns = [
         {
@@ -73,12 +70,15 @@ export default () => {
             key: 'medical_bill_ordinal_number',
             dataIndex: 'medical_bill_ordinal_number',
         },
-        
+
         {
             title: 'Chỉnh sửa',
             render: (text, record) => {
-                    return <Button type="link" onClick={() => handleEditClick(record)}>Chỉnh sửa</Button>;
-                   
+                return (
+                    <Button type="link" onClick={() => handleEditClick(record)}>
+                        Chỉnh sửa
+                    </Button>
+                );
             },
         },
     ];
@@ -119,7 +119,12 @@ export default () => {
                     </Col>
                 </Row>
                 <Divider></Divider>
-                <Table loading={tloading} dataSource={roomData} columns={columns} pagination={{pageSize:6}}></Table>
+                <Table
+                    loading={tloading}
+                    dataSource={roomData}
+                    columns={columns}
+                    pagination={{ pageSize: 6 }}
+                ></Table>
             </Card>
             <Modal
                 centered
@@ -136,7 +141,7 @@ export default () => {
                 title="Chỉnh sửa phòng"
                 footer={null}
                 visible={editRoom}
-                onCancel={() =>  setEditRoom(false)}
+                onCancel={() => setEditRoom(false)}
                 destroyOnClose
             >
                 <EditRoomForm onCancel={() => setEditRoom(false)} defaultValue={editRow} />

@@ -16,7 +16,7 @@ import {
 import axios from 'axios';
 import moment from 'moment';
 // import { PlusOutlined } from '@ant-design/icons';
-import {fetchCurrentUser} from '@/helpers/Auth'
+import { fetchCurrentUser } from '@/helpers/Auth';
 import { DEFAULT_HOST } from '@/host';
 // import SubclinicalForm from './SubclinicalForm';
 
@@ -25,8 +25,7 @@ moment.locale('en');
 // const { Search } = Input;
 // const { Option } = Select;
 
-
-export default ({mbId}) => {
+export default ({ mbId }) => {
     // const [formVisible, setFormVisible] = useState(false);
     // const [editRow, setEditRow] = useState({});
     const [ssData, setSSData] = useState([]);
@@ -40,23 +39,22 @@ export default ({mbId}) => {
     };
 
     const fetchSS = async () => {
-            try {
-                setTloading(true);
-                const url = `${DEFAULT_HOST}/physician/search-subclinical-sheet?field=subclinical_sheet_medical_bill_id&value=${mbId}`;  // prescription`
-                const result = await axios.get(url, config);
-                return result.data.data;
-            } catch (error) {
-                
-                // console.log(error);
-            }
-            return "";
+        try {
+            setTloading(true);
+            const url = `${DEFAULT_HOST}/physician/search-subclinical-sheet?field=subclinical_sheet_medical_bill_id&value=${mbId}`; // prescription`
+            const result = await axios.get(url, config);
+            return result.data.data;
+        } catch (error) {
+            // console.log(error);
+        }
+        return '';
     };
     useEffect(() => {
         const f = async () => {
             const drug = await fetchSS();
             setSSData(drug);
             setTloading(false);
-            return "";
+            return '';
         };
         f();
     }, []);
@@ -74,18 +72,26 @@ export default ({mbId}) => {
         },
         {
             title: 'Hình ảnh kết quả',
-            render: (text,record) => {
+            render: (text, record) => {
                 return (
-                    <>{
-                        record.subclinical_sheet_images !== undefined ? 
-                                record.subclinical_sheet_images.map((element) =>  {
-                                     return <Card key={element.uid} style={{margin: 3, float: 'left'}}><Image  src={`${DEFAULT_HOST}/upload/${element.name}`} width={150} height={100} ></Image></Card>
-                                    } 
-                               ) : <></>
-                       
-                        }
+                    <>
+                        {record.subclinical_sheet_images !== undefined ? (
+                            record.subclinical_sheet_images.map((element) => {
+                                return (
+                                    <Card key={element.uid} style={{ margin: 3, float: 'left' }}>
+                                        <Image
+                                            src={`${DEFAULT_HOST}/upload/${element.name}`}
+                                            width={150}
+                                            height={100}
+                                        ></Image>
+                                    </Card>
+                                );
+                            })
+                        ) : (
+                            <></>
+                        )}
                     </>
-                )
+                );
             },
         },
     ];
@@ -93,8 +99,13 @@ export default ({mbId}) => {
     return (
         <>
             <Card>
-                <Table loading={tloading} dataSource={ssData} columns={columns} pagination={{pageSize:6}}></Table>
+                <Table
+                    loading={tloading}
+                    dataSource={ssData}
+                    columns={columns}
+                    pagination={{ pageSize: 6 }}
+                ></Table>
             </Card>
-       </>
+        </>
     );
 };

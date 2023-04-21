@@ -1,1 +1,1 @@
-export const DEFAULT_HOST = "http://localhost:3000"
+export const DEFAULT_HOST = 'http://192.168.146.130:3000';
