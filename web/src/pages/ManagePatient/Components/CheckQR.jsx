@@ -11,12 +11,10 @@ import MedicalBillForm from './MedicalBillForm';
 import EditForm from './EditForm';
 
 const { TabPane } = Tabs;
-export default () => {
-    const [result, setResult] = useState([]);
+export default (props) => {
     const [posting, setPosting] = useState(false);
     const [qr, setQR] = useState(true);
     const [a, setA] = useState(false);
-    const [idS, setIds] = useState('');
     const [search, setSearch] = useState(false);
     const [contentVisible, setContentVisible] = useState(false);
     const [users, setUsers] = useState([]);
@@ -28,12 +26,11 @@ export default () => {
             Authorization: `Bearer ${user.token}`,
         },
     };
+    console.log("render searchQR")
 
     const handleScan = (data) => {
-        if (data === null) {
-            setResult([{ text: 'null' }]);
-        } else {
-            setResult(data);
+        if (data !== null) {
+            handleSearch(data.text)
             setQR(false);
             setPosting(true);
         }
@@ -45,23 +42,13 @@ export default () => {
     };
     const handleSetQR = async () => {
         setQR(true);
-        setResult([]);
         setPosting(false);
         return '';
     };
 
-    useEffect(() => {
-        const f = async () => {
-            if (idS !== '') {
-                const url = `${DEFAULT_HOST}/users/search-patient?field=user_id&value=${idS}`;
-                const resultE = await axios.get(url, config);
-                setUsers(resultE.data.data);
-                return '';
-            }
-            return '';
-        };
-        f();
-    }, [editModal]);
+    const handleError = (err) => {
+        console.log(err);
+    }
 
     const handleSearch = async (value) => {
         const url = `${DEFAULT_HOST}/users/search-patient?field=user_id&value=${value}`;
@@ -70,8 +57,7 @@ export default () => {
             const res = await axios.get(url, config);
             if (res.data.success) {
                 setUsers(res.data.data);
-                setIds(res.data.data[0].user_id);
-                const urlS = `${DEFAULT_HOST}/receptionist/search-healthrecord?field=health_record_patient_id&value=${users[0].user_id}`;
+                const urlS = `${DEFAULT_HOST}/receptionist/search-healthrecord?field=health_record_patient_id&value=${res.data.data[0].user_id}`;
                 const result2 = await axios.get(urlS, config);
                 setSearch(result2.data.valid);
                 setA(false);
@@ -90,9 +76,7 @@ export default () => {
             return '';
         }
     };
-    if (posting) {
-        handleSearch(result.text);
-    }
+
     const handleEditClick = (record) => {
         setEditRow(record);
         setEditModal(true);
@@ -153,9 +137,10 @@ export default () => {
                     <Button onClick={handleSetQR}>Quét lại</Button>
                 ) : (
                     <QrReader
-                        delay={10}
+                        delay={100}
                         style={previewStyle}
                         onScan={handleScan}
+                        onError={handleError}
                         disabled={posting}
                     />
                 )}

@@ -52,9 +52,11 @@ export default ({ pId }) => {
                     message.success(result.data.data[0].health_record_id);
                     return;
                 }
-                message.error('Không tìm tìm thấy sổ khám');
+                setDefaultValue('');
+                message.error('Không tìm thấy sổ khám');
             } catch (error) {
-                message.error('Không tìm tìm thấy sổ khám');
+                setDefaultValue('');
+                message.error('Không tìm thấy sổ khám');
             }
         };
         f();
@@ -154,7 +156,7 @@ export default ({ pId }) => {
                         style={{ float: 'right' }}
                         type="default"
                         htmlType="button"
-                        disabled={edit.isEditing}
+                        disabled={edit.isEditing || defaultValue===''}
                         onClick={() => setEdit({ ...edit, isEditing: true })}
                     >
                         <EditOutlined />
@@ -165,7 +167,7 @@ export default ({ pId }) => {
                         type="primary"
                         htmlType="submit"
                         loading={posting}
-                        disabled={!edit.isEditing}
+                        disabled={!edit.isEditing || defaultValue===''}
                     >
                         Xác nhận
                     </Button>

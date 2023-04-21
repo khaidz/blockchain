@@ -51,7 +51,7 @@ router.post(
                 hr.health_record_patient_id +
                 "'>" +
                 DEFAULT_HOST +
-                "/auth/verify/" +
+                "/patient/verify/" +
                 hr.health_record_id +
                 "/" +
                 hr.health_record_patient_id +

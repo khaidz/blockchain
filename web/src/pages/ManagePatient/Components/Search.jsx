@@ -28,7 +28,7 @@ export default () => {
             Authorization: `Bearer ${user.token}`,
         },
     };
-
+    console.log("render search")
     useEffect(() => {
         const f = async () => {
             const urlP = `${DEFAULT_HOST}/users/search/patient`;
@@ -46,6 +46,11 @@ export default () => {
     }, [editModal]);
 
     const handleSearch = async (value) => {
+        if (value.key === undefined || value.key === '' ){
+            setContentVisible(false);
+            setA(false);
+            return;
+        }
         const url = `${DEFAULT_HOST}/users/search-patient?field=${value.field}&value=${value.key}`;
         try {
             const result = await axios.get(url, config);
@@ -60,10 +65,7 @@ export default () => {
                     setContentVisible(true);
                     return '';
                 }
-                setUsers(result.data.data);
                 setA(false);
-                const urlS = `${DEFAULT_HOST}/receptionist/search-healthrecord?field=health_record_patient_id&value=${result.data.data[0].user_id}`;
-                const result2 = await axios.get(urlS, config);
                 setSearch(result2.data.valid);
                 setContentVisible(true);
                 return '';
@@ -185,7 +187,6 @@ export default () => {
                                             message="Không tìm thấy!"
                                             style={{ margin: 10 }}
                                         ></Alert>
-                                        <Table columns={columns} dataSource={patients}></Table>
                                     </Card>
                                     <Modal
                                         visible={editModal}
@@ -265,7 +266,7 @@ export default () => {
                 <TabPane tab="Tạo phiếu khám bệnh" key="3">
                     {b ? (
                         <>
-                            <CheckQR></CheckQR>{' '}
+                            <CheckQR data={{text: 'UUCTLM7GWHNGXWBJSGLMKN'}}></CheckQR>{' '}
                             <Button style={{ margin: 10 }} onClick={handleC}>
                                 Dừng
                             </Button>

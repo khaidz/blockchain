@@ -5,7 +5,6 @@ import SubclinicalSheet from './SubclinicalSheet';
 import Prescription from './Prescription';
 
 export default function MedicalBill ({value}) {
-
     
     return (
          <View style={styles.view}> 

@@ -33,15 +33,14 @@ export default () => {
     };
 
     const handleScan = (data) => {
-        if (data === null) {
-            setResult([{ text: 'null' }]);
-        } else {
-            setResult(data);
+        if (data !== null) {
+            handleSearch(data.text)
             setQR(false);
             setPosting(true);
         }
         return '';
     };
+
     const handleScanUser = (data) => {
         if (data === null) {
             setCheckQR(false);
@@ -53,6 +52,10 @@ export default () => {
         return '';
     };
 
+    const handleError = (err) => {
+        console.log(err)
+    }
+
     const previewStyle = {
         height: 240,
         width: 320,
@@ -63,48 +66,43 @@ export default () => {
         setPosting(false);
         return '';
     };
-    useEffect(() => {
-        const handleSearch = async (value) => {
-            const url = `${DEFAULT_HOST}/users/search-patient?field=user_id&value=${value}`;
-            try {
-                const res = await axios.get(url, config);
-                if (res.data.success) {
-                    setUsers(res.data.data);
-                    const urlS = `${DEFAULT_HOST}/physician/search-health-record?field=health_record_patient_id&value=${users[0].user_id}`;
-                    const result2 = await axios.get(urlS, config);
-                    if (result2.data.success) {
-                        const urlM = `${DEFAULT_HOST}/physician/search-medical-bill?field=medical_bill_health_record_id&value=${result2.data.data[0].health_record_id}`;
-                        const result3 = await axios.get(urlM, config);
-                        const print = result3.data.data.sort((e, f) => {
-                            return (
-                                moment(f.medical_bill_created_at) -
-                                moment(e.medical_bill_created_at)
-                            );
-                        });
-                        setSearch(print);
-                        setA(false);
-                        setContentVisible(true);
-                        setPosting(false);
-                        return '';
-                    }
-                }
-                setA(true);
-                setContentVisible(true);
-                setPosting(false);
-                return '';
-            } catch (error) {
-                setA(true);
-                setContentVisible(true);
-                setPosting(false);
-                return '';
-            }
-        };
-        if (posting || check) {
-            handleSearch(result.text);
-        }
-        setCheck(false);
-    }, [posting, result.text, editModal, viewModal, check, config]);
 
+    const handleSearch = async (value) => {
+        const url = `${DEFAULT_HOST}/users/search-patient?field=user_id&value=${value}`;
+        try {
+            const res = await axios.get(url, config);
+            if (res.data.success) {
+                setUsers(res.data.data);
+                const urlS = `${DEFAULT_HOST}/physician/search-health-record?field=health_record_patient_id&value=${res.data.data[0].user_id}`;
+                const result2 = await axios.get(urlS, config);
+                if (result2.data.success) {
+                    const urlM = `${DEFAULT_HOST}/physician/search-medical-bill?field=medical_bill_health_record_id&value=${result2.data.data[0].health_record_id}`;
+                    const result3 = await axios.get(urlM, config);
+                    const print = result3.data.data.sort((e, f) => {
+                        return (
+                            moment(f.medical_bill_created_at) -
+                            moment(e.medical_bill_created_at)
+                        );
+                    });
+                    setSearch(print);
+                    setA(false);
+                    setContentVisible(true);
+                    setPosting(false);
+                    return '';
+                }
+            }
+            setA(true);
+            setContentVisible(true);
+            setPosting(false);
+            return '';
+        } catch (error) {
+            setA(true);
+            setContentVisible(true);
+            setPosting(false);
+            return '';
+        }
+    };
+    
     const handleEditClick = (record) => {
         setEditRow(record);
         setEditModal(true);
@@ -176,6 +174,7 @@ export default () => {
                         delay={10}
                         style={previewStyle}
                         onScan={handleScan}
+                        onError={handleError}
                         disabled={posting}
                     />
                 )}
@@ -226,6 +225,7 @@ export default () => {
                                         delay={10}
                                         style={previewStyle}
                                         onScan={handleScanUser}
+                                        onError={handleError}
                                     />
                                     <Alert
                                         showIcon
